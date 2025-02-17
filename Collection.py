@@ -81,3 +81,10 @@ print(new_set)  # {1, 2, 3, 4}
 
 new_tup = tuple(x for x in range(1, 5))
 print(new_tup)  # (1, 2, 3, 4)
+
+# Filtering and transformation
+squared = [x ** 2 for x in range(1, 6)]
+print(squared)  # [1, 4, 9, 16, 25]
+
+even_squared = [x ** 2 for x in range(1, 6) if x % 2 == 0]
+print(even_squared)  # [4, 16]
