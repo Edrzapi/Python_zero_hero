@@ -51,4 +51,4 @@ This repo is designed to help students learn and reference key Python concepts.
 ## 🚀 How to Use
 Clone this repo and start exploring:
 ```sh
-git clone https://github.com/yourusername/python-resources.git
+git clone https://github.com/Edrzapi/Python_zero_hero.git
