@@ -3,7 +3,8 @@
 Welcome to **Python Zero to Hero**, a collection of useful Python materials covering everything from basic data types to object-oriented programming. 
 This repo is designed to help students learn and reference key Python concepts.
 
-## 📂 What's Inside?### 🔹 Core Python Concepts
+# 📂 What's Inside?
+🔹 Core Python Concepts
 - ✅ **Data Types Collection** – dedicated sections for:
   - **Integers & Floats** – number operations, precision, rounding  
   - **Strings** – formatting, methods, encoding  
