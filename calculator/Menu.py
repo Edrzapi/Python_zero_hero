@@ -27,17 +27,16 @@ def get_numbers():
 
 # Perform the operation
 def perform_operation(operation, num1, num2):
+    my_calc = Calculator(num1, num2)
+
     if operation == "+":
-        return num1 + num2
+        return my_calc.addition()
     elif operation == "-":
-        return num1 - num2
+        return my_calc.subtraction()
     elif operation == "*":
-        return num1 * num2
+        return my_calc.multiplication()
     elif operation == "/":
-        if num2 == 0:
-            print("Error: Cannot divide by zero!")
-            return None
-        return num1 / num2
+        return my_calc.division()
     else:
         print("Invalid operation!")
         return None
