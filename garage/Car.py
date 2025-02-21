@@ -1,48 +1,115 @@
-class Vehicle:
-    def __init__(self, mot: bool):
-        self.mot = mot
+from garage.Vehicle import Vehicle
 
 
 class Car(Vehicle):
-    # Further learning - GC: Garbage Collection
-    def __init__(self, make: str, model: str, milage: int, year: int, mot: bool):
-        super().__init__(mot)
+    """
+    A class representing a Car, inheriting from the Vehicle class.
+    Includes specific attributes for a car like make, model, mileage, and year.
+    """
+
+    def __init__(self, id: int, make: str, model: str, mileage: int, year: int, mot: bool, fuel_level: float = 100.0):
+        """
+        Initializes the Car object with additional attributes (make, model, mileage, year) and MOT status.
+
+        Args:
+            make (str): The car's make (e.g., Toyota).
+            model (str): The car's model (e.g., Corolla).
+            mileage (int): The car's mileage (in kilometers).
+            year (int): The year of manufacture of the car.
+            mot (bool): Whether the car is operational or not.
+            fuel_level (float): The initial fuel level of the vehicle (default is 100.0%).
+        """
+        super().__init__(id, mot, fuel_level)  # Initialize the parent class (Vehicle)
         self.__make = make
         self.__model = model
-        self.__milage = milage
+        self.__mileage = mileage
         self.__year = year
 
-    def get_year(self):
-        return self.__year
+    @property
+    def make(self):
+        """
+        Gets the make of the car.
 
-    def set_year(self, update_year):
-        self.__year = update_year
-
-    def get_make(self):
+        Returns:
+            str: The car's make (e.g., Toyota).
+        """
         return self.__make
 
-    def set_make(self, update_make):
-        self.__make = update_make
+    @make.setter
+    def make(self, value: str):
+        """
+        Sets the make of the car.
 
-    def get_model(self):
+        Args:
+            value (str): The new make of the car (e.g., Honda).
+        """
+        self.__make = value
+
+    @property
+    def model(self):
+        """
+        Gets the model of the car.
+
+        Returns:
+            str: The car's model (e.g., Corolla).
+        """
         return self.__model
 
-    def set_model(self, update_model):
-        self.__model = update_model
+    @model.setter
+    def model(self, value: str):
+        """
+        Sets the model of the car.
 
-    def get_milage(self):
-        return self.__milage
+        Args:
+            value (str): The new model of the car (e.g., Civic).
+        """
+        self.__model = value
 
-    def set_milage(self, update_milage):
-        self.__milage = update_milage
+    @property
+    def mileage(self):
+        """
+        Gets the mileage of the car.
+
+        Returns:
+            int: The car's mileage (in kilometers).
+        """
+        return self.__mileage
+
+    @mileage.setter
+    def mileage(self, value: int):
+        """
+        Sets the mileage of the car.
+
+        Args:
+            value (int): The new mileage of the car (in kilometers).
+        """
+        self.__mileage = value
+
+    @property
+    def year(self):
+        """
+        Gets the year of manufacture of the car.
+
+        Returns:
+            int: The year the car was manufactured.
+        """
+        return self.__year
+
+    @year.setter
+    def year(self, value: int):
+        """
+        Sets the year of manufacture of the car.
+
+        Args:
+            value (int): The new year of the car.
+        """
+        self.__year = value
 
     def __str__(self) -> str:
-        return f'Make: {self.__make}, Model: {self.__model}, Milage: {self.__milage}, Year: {self.__year}, MOT Status: {self.mot}'
+        """
+        Provides a string representation of the Car object, showing make, model, mileage, and MOT status.
 
-
-my_car = Car("Toyota", "mr2", 1990, 95000, False)
-irfan_car = Car("Honda", "Civic", 2008, 100000, True)
-harry_car = Car("Honda", "c220", 2015, 90000, True)
-# harry_car.make = "Iveco" - not cool, pretty unsafe in a wider application
-print(harry_car.get_make())  # use a get/setter to access variables, far safer!
-print(harry_car)
+        Returns:
+            str: A formatted string with the car's make, model, mileage, year, and MOT status.
+        """
+        return f'Make: {self.__make}, Model: {self.__model}, Mileage: {self.__mileage} km, Year: {self.__year}, MOT Status: {self.mot}'

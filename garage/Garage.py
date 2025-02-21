@@ -1,3 +1,7 @@
+from garage.Car import Car
+from garage.Motorbike import Motorbike
+
+
 class Garage:
     def __init__(self):
         self.vehicles = []  # List to store vehicles
@@ -30,31 +34,3 @@ class Garage:
     def remove_by_type(self, vehicle_type):
         """Remove all vehicles of a certain type."""
         self.vehicles = [v for v in self.vehicles if not isinstance(v, vehicle_type)]
-
-
-# Example vehicle classes for testing
-class Vehicle:
-    def __init__(self, id):
-        self.id = id
-
-
-class Car(Vehicle):
-    pass
-
-
-class Motorbike(Vehicle):
-    pass
-
-
-# Example usage
-garage = Garage()
-car1 = Car(1)
-bike1 = Motorbike(2)
-garage.add_vehicle(car1)
-garage.add_vehicle(bike1)
-
-print("Total fix cost:", garage.fix_vehicle())  # Output: 150
-garage.remove_vehicle(vehicle_id=1)
-print("Vehicles after removing car:", len(garage.vehicles))  # Output: 1
-garage.empty_garage()
-print("Vehicles after emptying:", len(garage.vehicles))  # Output: 0
