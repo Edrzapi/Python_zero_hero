@@ -1,4 +1,7 @@
 # Menu console
+from calculator.Calculator import Calculator
+
+
 def show_menu():
     print("\nChoose an operation:")
     print("+ for addition")
