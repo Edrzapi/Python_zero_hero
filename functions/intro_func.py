@@ -62,7 +62,7 @@ unpack_function(*new_tup)
 
 
 # Nested Functions
-# Functions can be defined inside other functions.
+# Can be defined inside other functions.
 
 def outer_func():
     print("Outer function!")
@@ -87,29 +87,6 @@ def str_out_function(val):
 
 str_out_function("Str")
 
-# Lambda functions (short, anonymous functions)
-
-# Simple lambda example
-addition = lambda a, b: a + b
-print(addition(1, 2))  # Output: 3
-
-# Lambda with map function
-my_list = [1, 2, 3, 4, 5, 6]
-map_list = list(map(lambda n: 2 ** n, my_list))
-for i in map_list:
-    print(i)
-
-# Filter example: keep even numbers
-filter_list = list(filter(lambda i: (i % 2 == 0), my_list))
-for i in filter_list:
-    print(i)
-
-# Reduce example: sum up values
-import functools as ft
-
-i = ft.reduce(lambda x, y: x + y, my_list)
-print(i)  # Output: 21
-
 
 # Function Annotations
 # Add metadata to function arguments and return types using annotations.
@@ -120,13 +97,8 @@ def print_vat(**kwargs: 'VAT, gross and message'):
 
 print(print_vat.__annotations__)
 
-
-def slice(string: str, start: int, end: int) -> str:
-    return string[start:end]
-
-
 # Global vs Local Variables
-# Variables in functions are local by default. Use 'global' to modify them globally.
+# Functions are local by default. Use 'global' to modify globally.
 
 var = 1
 result = 3
