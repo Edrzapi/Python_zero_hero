@@ -1,132 +1,83 @@
-import sys
-import pickle
 import csv
-import sqlite3
-import os
 
-# File Modes
-# 'r'  -> Read (default mode)
-# 'w'  -> Write (creates/overwrites the file)
-# 'a'  -> Append (creates the file if not exists)
-# 'x'  -> Create and write, fails if the file exists
-# 'r+' -> Read and write
-# 'w+' -> Create and truncate for read/write
-# 'a+' -> Create and append for read/write
+""" Reading in CSV """
 
-# ------------------------
-# Ask for forgiveness approach (try/except)
-try:
-    file = open("drop/Errors.txt", "r")  # Trying to open the file
-    print("Reading file content:")
-    print(file.read())
-except Exception as e:
-    print(f"Error occurred: {e}")  # Handling the error after it happens
-finally:
-    file.close()  # Ensures that the file is closed
 
-# ------------------------
-# Look before you leap approach (os.path.exists)
-if os.path.exists("drop/Errors.txt"):  # Checking if the file exists first
-    with open("drop/Errors.txt", "r") as file:
-        print("Reading file content using 'with':")
-        print(file.read())
-else:
-    print("File does not exist, cannot open it.")
+# Define a function to process data in chunks (for large files)
+def process_chunk(chunk):
+    # This is where you process each chunk of data
+    for row in chunk:
+        print(row)  # Example: Print each row (can be replaced with other processing)
 
-# ------------------------
-# Reading from files
-with open("drop/Errors.txt", "r") as f:
-    print("Read whole file:", f.read())
-    f.seek(0)
-    print("Read line by line:")
-    for line in f:
-        print(line.strip())
 
-# Most Pythonic way to read a file line by line
-with open("drop/Errors.txt", "r") as f:
-    print("File content with for loop:")
-    for line in f:
-        print(line.strip())
+# Set the size of each chunk to be read at once
+chunk_size = 1000
+chunk = []  # Initialize an empty list to store rows
 
-# Writing to files
-with open("drop/Errors.txt", "a") as append_f:
-    append_f.write("Appending new line to the file\n")
-    append_f.writelines(["Another line\n", "Yet another line\n"])
+# Open the CSV file in read mode
+with open('large_dataset.csv', mode='r') as file:
+    csv_reader = csv.reader(file)  # Create a CSV reader object
+    header = next(csv_reader)  # Skip the header row, if present
 
-# Using print() to write to files
-with open("drop/Errors.txt", "w") as write_f:
-    print("This is a new line.", file=write_f)
+    # Iterate through each row in the CSV file
+    for row in csv_reader:
+        chunk.append(row)  # Add each row to the chunk
 
-# Binary Files
-with open("drop/binary.txt", "wb") as binary_f:
-    binary_f.write(b"Binary data\n")
+        # Once the chunk reaches the specified size, process it
+        if len(chunk) >= chunk_size:
+            process_chunk(chunk)  # Process the chunk of rows
+            chunk = []  # Reset chunk for the next set of rows
 
-with open("drop/binary.txt", "rb") as binary_f:
-    print("Reading binary data:")
-    print(binary_f.read().decode())
+    # Process any remaining rows that didn’t fit into a full chunk
+    if chunk:
+        process_chunk(chunk)  # Process the final chunk if there are any left
 
-# Writing and Reading Bytes (byte-like objects)
-with open('drop/out.dat', 'wb') as dat_f:
-    dat_f.write(b'Single bytes string ')
-    s = "Native string as a line\r\n"
-    dat_f.write(s.encode())
+import pandas as pd
 
-# Handling input/output with sys.stdin and sys.stdout
-sys.stdout.write("Please enter a value: ")
-sys.stdout.flush()
-reply = sys.stdin.readline()
-safe_reply = sys.stdin.readline().strip()
-print(f"Input was: {reply} and {safe_reply}")
+# Set chunk size (e.g., 1000 rows at a time)
+chunk_size = 1000
+chunks = pd.read_csv('large_dataset.csv', chunksize=chunk_size)  # Read the file in chunks
 
-# Navigating within a file (seek, tell)
-with open("drop/Errors.txt", "r") as f:
-    f.seek(0)  # Move to the beginning
-    print("Current position:", f.tell())  # Shows current file position
+# Iterate over each chunk returned by pandas
+for chunk in chunks:
+    # Process each chunk (pandas DataFrame)
+    print(chunk.head())  # Print the first few rows of the current chunk for review
 
-# Pickling: Saving Python objects
-# Pickling allows us to serialize Python objects into a byte stream, storing data across program executions
-new_obj = {"key": "value", "number": 42}
-with open('drop/pickle-file.pickle', 'wb') as pickle_f:
-    pickle.dump(new_obj, pickle_f)
+""" Writing in CSV """
 
-# To load the object back from the pickle file
-with open('drop/pickle-file.pickle', 'rb') as pickle_f:
-    stored_obj = pickle.load(pickle_f)
-    print("Pickled object:", stored_obj)
+import csv
 
-# CSV Handling
-# Writing CSV files
-csv_data = [["Name", "Age"], ["Alice", 30], ["Bob", 25]]
-with open('drop/people.csv', 'w', newline='') as csv_f:
-    writer = csv.writer(csv_f)
-    writer.writerows(csv_data)
+# Example data to write (you can replace this with your own data)
+data = [['Name', 'Age'], ['Alice', 30], ['Bob', 25], ['Charlie', 35]]
 
-# Reading CSV files
-with open('drop/people.csv', 'r') as csv_f:
-    reader = csv.reader(csv_f)
-    for row in reader:
-        print("CSV Row:", row)
+# Set the chunk size for writing (e.g., writing 1000 rows at a time)
+chunk_size = 1000
+chunk = []  # Initialize an empty list to store rows to be written
 
-# SQLite - Simple Database Example
-# Connecting to a SQLite database
-conn = sqlite3.connect('drop/my_database.db')
-cursor = conn.cursor()
+# Open the output CSV file in write mode
+with open('output.csv', mode='w', newline='') as file:
+    csv_writer = csv.writer(file)  # Create a CSV writer object
 
-# Creating a table
-cursor.execute('''CREATE TABLE IF NOT EXISTS users
-                  (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)''')
+    # Iterate through each row in the data
+    for row in data:
+        chunk.append(row)  # Add each row to the chunk
 
-# Inserting data
-cursor.execute("INSERT INTO users (name, age) VALUES (?, ?)", ('Alice', 30))
-cursor.execute("INSERT INTO users (name, age) VALUES (?, ?)", ('Bob', 25))
-conn.commit()
+        # Once the chunk reaches the specified size, write it to the file
+        if len(chunk) >= chunk_size:
+            csv_writer.writerows(chunk)  # Write the chunk to the file
+            chunk = []  # Reset the chunk for the next set of rows
 
-# Querying data
-cursor.execute("SELECT * FROM users")
-rows = cursor.fetchall()
-print("Database query results:")
-for row in rows:
-    print(row)
+    # Write any remaining rows that didn’t fit into a full chunk
+    if chunk:
+        csv_writer.writerows(chunk)  # Write the final chunk of rows
 
-# Closing the connection
-conn.close()
+# ------------------------------------------
+
+import pandas as pd
+
+# Example data (this could be from processing a large CSV file)
+data = {'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [30, 25, 35]}
+df = pd.DataFrame(data)  # Convert data into a pandas DataFrame
+
+# Save the DataFrame to a CSV file
+df.to_csv('output.csv', index=False)  # Write the DataFrame to 'output.csv' without the index
