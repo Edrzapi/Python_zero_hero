@@ -32,7 +32,7 @@ python --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/Edrzapi/Python_zero_hero.git
+git clone git@github.com:Edrzapi/Python_zero_hero.git
 cd Python_zero_hero
 
 # Create a virtual environment
@@ -53,7 +53,7 @@ pip install -r requirements.txt
 If you prefer not to use a virtual environment:
 
 ```bash
-git clone https://github.com/Edrzapi/Python_zero_hero.git
+git clone git@github.com:Edrzapi/Python_zero_hero.git
 cd Python_zero_hero
 pip install -r requirements.txt
 ```
@@ -65,12 +65,15 @@ pip install -r requirements.txt
 ## Repository Structure
 
 ```
-├── datatypes/              # Primitives, strings, collections
-├── control_flow/           # Conditionals, loops, comprehensions
+├── basics/                 # Primitives, strings, type conversion
+├── collections/            # Lists, tuples, sets, dicts, comprehensions
+├── control_flow/           # Conditionals, comprehensions
+├── iteration/              # for, while, foreach, itertools
 ├── functions/              # Parameters, scope, lambdas, decorators
 ├── oop/                    # Classes, inheritance, MRO, abstraction
-├── error_handling/         # Try/except, custom exceptions
-├── data_io/                # File I/O, JSON, CSV, SQLite, SQLAlchemy
+├── exceptions/             # Try/except, custom exceptions
+├── io/                     # File I/O, JSON, CSV
+├── databases/              # SQLite, SQLAlchemy
 ├── apis/                   # HTTP requests with the requests library
 ├── testing/                # Doctests, unittest, test suites
 ├── module_packages/        # Package structure and imports
@@ -133,7 +136,7 @@ Each task applies multiple concepts together:
 Each module can be run directly:
 
 ```bash
-python datatypes/basic_datatypes.py
+python basics/basic_datatypes.py
 python functions/intro_func.py
 python oop/Inheritance.py
 ```
@@ -185,4 +188,7 @@ No Django. No Flask. No Jupyter. No notebooks.
 
 This course covers Python fundamentals and OOP. For applied Python topics — web development, data engineering, automation — see the applied course repositories in this family.
 
-For a similar structured approach in another language, see [Java Zero to Hero](https://github.com/Edrzapi/Java_zero_hero).
+For the same structured approach in other languages, see the companion repositories:
+
+- [Java Zero to Hero](https://github.com/Edrzapi/Java_zero_hero)
+- [C# Zero to Hero](https://github.com/Edrzapi/CS_zero_hero)
