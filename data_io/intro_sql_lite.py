@@ -1,13 +1,13 @@
-import sqlite3
+# ============================================================
+# SQLite — Full CRUD with Python’s sqlite3 Module
+# ============================================================
+# SQLite is serverless and stores everything in a single file.
+# Ideal for local storage, prototyping, and teaching SQL.
+# Note: SQLite is dynamically typed — it doesn’t enforce column
+# types as strictly as MySQL or PostgreSQL.
+# ============================================================
 
-# =================================
-# SQLite is serverless, meaning it doesn’t require a separate server process like MySQL or PostgreSQL.
-# It stores everything (data, schema, etc.) in a single file, making it easy to set up and move between systems.
-# It's ideal for embedded applications, mobile apps, or local storage needs. - Self contained
-# Unlike traditional databases, SQLite is dynamically typed. It doesn't enforce data types for columns as strictly as other databases (e.g., MySQL or PostgreSQL).
-# You can insert values of any type, even if they don’t match the declared column type. For example, you can insert a string into an INTEGER column, and SQLite will store it as a string.
-# c.execute("PRAGMA foreign_keys = ON")
-# =================================
+import sqlite3
 
 # It's good practice to use 'with' to manage database connections.
 # This ensures the connection is automatically closed when done.

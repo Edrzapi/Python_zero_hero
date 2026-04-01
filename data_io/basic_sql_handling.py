@@ -1,132 +1,102 @@
-import sys
-import pickle
-import csv
+# ============================================================
+# Basic SQL Handling — Raw SQL with SQLite
+# ============================================================
+# Demonstrates CRUD operations using Python's built-in sqlite3
+# module. No ORM, no external dependencies.
+# ============================================================
+
 import sqlite3
-import os
 
-# File Modes
-# 'r'  -> Read (default mode)
-# 'w'  -> Write (creates/overwrites the file)
-# 'a'  -> Append (creates the file if not exists)
-# 'x'  -> Create and write, fails if the file exists
-# 'r+' -> Read and write
-# 'w+' -> Create and truncate for read/write
-# 'a+' -> Create and append for read/write
+# ------------------------------------------------------------
+# Connection and Table Setup
+# ------------------------------------------------------------
+# Using a context manager ensures the connection is closed
+# automatically, even if an error occurs.
 
-# ------------------------
-# Ask for forgiveness approach (try/except)
-try:
-    file = open("drop/Errors.txt", "r")  # Trying to open the file
-    print("Reading file content:")
-    print(file.read())
-except Exception as e:
-    print(f"Error occurred: {e}")  # Handling the error after it happens
-finally:
-    file.close()  # Ensures that the file is closed
+with sqlite3.connect(":memory:") as conn:
+    cursor = conn.cursor()
 
-# ------------------------
-# Look before you leap approach (os.path.exists)
-if os.path.exists("drop/Errors.txt"):  # Checking if the file exists first
-    with open("drop/Errors.txt", "r") as file:
-        print("Reading file content using 'with':")
-        print(file.read())
-else:
-    print("File does not exist, cannot open it.")
+    # Create a table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS employees (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            department TEXT,
+            salary REAL
+        )
+    """)
 
-# ------------------------
-# Reading from files
-with open("drop/Errors.txt", "r") as f:
-    print("Read whole file:", f.read())
-    f.seek(0)
-    print("Read line by line:")
-    for line in f:
-        print(line.strip())
+    # ------------------------------------------------------------
+    # INSERT — Adding records
+    # ------------------------------------------------------------
+    # Always use parameterised queries (?) to prevent SQL injection.
 
-# Most Pythonic way to read a file line by line
-with open("drop/Errors.txt", "r") as f:
-    print("File content with for loop:")
-    for line in f:
-        print(line.strip())
+    cursor.execute(
+        "INSERT INTO employees (name, department, salary) VALUES (?, ?, ?)",
+        ("Alice", "Engineering", 75000.00)
+    )
 
-# Writing to files
-with open("drop/Errors.txt", "a") as append_f:
-    append_f.write("Appending new line to the file\n")
-    append_f.writelines(["Another line\n", "Yet another line\n"])
+    # Insert multiple rows at once with executemany
+    employees = [
+        ("Bob", "Marketing", 55000.00),
+        ("Charlie", "Engineering", 80000.00),
+        ("Diana", "HR", 60000.00),
+    ]
+    cursor.executemany(
+        "INSERT INTO employees (name, department, salary) VALUES (?, ?, ?)",
+        employees
+    )
+    conn.commit()
 
-# Using print() to write to files
-with open("drop/Errors.txt", "w") as write_f:
-    print("This is a new line.", file=write_f)
+    # ------------------------------------------------------------
+    # SELECT — Querying data
+    # ------------------------------------------------------------
 
-# Binary Files
-with open("drop/binary.txt", "wb") as binary_f:
-    binary_f.write(b"Binary data\n")
+    # Fetch all rows
+    cursor.execute("SELECT * FROM employees")
+    print("All employees:")
+    for row in cursor.fetchall():
+        print(f"  {row}")
 
-with open("drop/binary.txt", "rb") as binary_f:
-    print("Reading binary data:")
-    print(binary_f.read().decode())
+    # Fetch with a filter
+    cursor.execute(
+        "SELECT name, salary FROM employees WHERE department = ?",
+        ("Engineering",)
+    )
+    print("\nEngineering department:")
+    for row in cursor.fetchall():
+        print(f"  {row[0]}: £{row[1]:,.2f}")
 
-# Writing and Reading Bytes (byte-like objects)
-with open('drop/out.dat', 'wb') as dat_f:
-    dat_f.write(b'Single bytes string ')
-    s = "Native string as a line\r\n"
-    dat_f.write(s.encode())
+    # ------------------------------------------------------------
+    # UPDATE — Modifying records
+    # ------------------------------------------------------------
 
-# Handling input/output with sys.stdin and sys.stdout
-sys.stdout.write("Please enter a value: ")
-sys.stdout.flush()
-reply = sys.stdin.readline()
-safe_reply = sys.stdin.readline().strip()
-print(f"Input was: {reply} and {safe_reply}")
+    cursor.execute(
+        "UPDATE employees SET salary = ? WHERE name = ?",
+        (90000.00, "Charlie")
+    )
+    conn.commit()
 
-# Navigating within a file (seek, tell)
-with open("drop/Errors.txt", "r") as f:
-    f.seek(0)  # Move to the beginning
-    print("Current position:", f.tell())  # Shows current file position
+    # Verify the update
+    cursor.execute("SELECT name, salary FROM employees WHERE name = ?", ("Charlie",))
+    print(f"\nUpdated: {cursor.fetchone()}")
 
-# Pickling: Saving Python objects
-# Pickling allows us to serialize Python objects into a byte stream, storing data across program executions
-new_obj = {"key": "value", "number": 42}
-with open('drop/pickle-file.pickle', 'wb') as pickle_f:
-    pickle.dump(new_obj, pickle_f)
+    # ------------------------------------------------------------
+    # DELETE — Removing records
+    # ------------------------------------------------------------
 
-# To load the object back from the pickle file
-with open('drop/pickle-file.pickle', 'rb') as pickle_f:
-    stored_obj = pickle.load(pickle_f)
-    print("Pickled object:", stored_obj)
+    cursor.execute("DELETE FROM employees WHERE name = ?", ("Bob",))
+    conn.commit()
 
-# CSV Handling
-# Writing CSV files
-csv_data = [["Name", "Age"], ["Alice", 30], ["Bob", 25]]
-with open('drop/people.csv', 'w', newline='') as csv_f:
-    writer = csv.writer(csv_f)
-    writer.writerows(csv_data)
+    # Verify the delete
+    cursor.execute("SELECT COUNT(*) FROM employees")
+    print(f"\nRemaining employees: {cursor.fetchone()[0]}")
 
-# Reading CSV files
-with open('drop/people.csv', 'r') as csv_f:
-    reader = csv.reader(csv_f)
-    for row in reader:
-        print("CSV Row:", row)
+    # ------------------------------------------------------------
+    # Aggregate Queries
+    # ------------------------------------------------------------
 
-# SQLite - Simple Database Example
-# Connecting to a SQLite database
-conn = sqlite3.connect('drop/my_database.db')
-cursor = conn.cursor()
-
-# Creating a table
-cursor.execute('''CREATE TABLE IF NOT EXISTS users
-                  (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)''')
-
-# Inserting data
-cursor.execute("INSERT INTO users (name, age) VALUES (?, ?)", ('Alice', 30))
-cursor.execute("INSERT INTO users (name, age) VALUES (?, ?)", ('Bob', 25))
-conn.commit()
-
-# Querying data
-cursor.execute("SELECT * FROM users")
-rows = cursor.fetchall()
-print("Database query results:")
-for row in rows:
-    print(row)
-
-# Closing the connection
-conn.close()
+    cursor.execute("SELECT department, AVG(salary) FROM employees GROUP BY department")
+    print("\nAverage salary by department:")
+    for row in cursor.fetchall():
+        print(f"  {row[0]}: £{row[1]:,.2f}")

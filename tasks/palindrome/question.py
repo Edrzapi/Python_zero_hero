@@ -1,4 +1,10 @@
-# Palindrome Task
+# ============================================================
+# Task: Palindrome Checker
+# ============================================================
+# Write two functions: one with regex, one without.
+# Each should return True if the input is a palindrome,
+# ignoring case, spaces, and punctuation.
+# ============================================================
 potential_palindrome = ["A man, a plan, a canal, Panama!", "Was it a car or a cat I saw?",
                         "No 'x' in Nixon.", "Eva, can I see bees in a cave?!@!!", "Madam, in Eden, I'm Adam!!%%!!!@@",
                         "thing"]

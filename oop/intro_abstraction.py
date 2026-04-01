@@ -1,7 +1,11 @@
+# ============================================================
+# Abstraction — Abstract Base Classes (ABC)
+# ============================================================
+
 from abc import ABC, abstractmethod
 
 
-class Vehicle(ABC):  # Vehicle is an abstract class, inheriting from ABC
+class Vehicle(ABC):
     """An Abstract Vehicle class"""
 
     def __init__(self, make, model):
@@ -21,7 +25,7 @@ class Vehicle(ABC):  # Vehicle is an abstract class, inheriting from ABC
         """Abstract method to honk"""
 
 
-class Car(Vehicle):  # Car is a concrete subclass of Vehicle
+class Car(Vehicle):
     __count = 0
 
     def __init__(self, make, model, num_doors):

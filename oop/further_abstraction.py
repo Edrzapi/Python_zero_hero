@@ -1,11 +1,13 @@
-from abc import ABC, abstractmethod
-# @abstractmethod - An abstract method is a method declared but not implemented in an abstract class.
-# Any concrete subclass must implement all abstract methods, or it will also be considered abstract.
-# @property - Can be used with @abstractmethod to create abstract properties.
-# @classmethod - Class methods operate on the class itself, not instances.
+# ============================================================
+# Further Abstraction — Properties, Class Methods, Static Methods
+# ============================================================
+# @abstractmethod — must be implemented by concrete subclasses
+# @property      — can combine with @abstractmethod for abstract properties
+# @classmethod   — operates on the class, not instances
+# @staticmethod  — not tied to instance or class, used for organisation
+# ============================================================
 
-# @staticmethod - A static method is not tied to the instance or class.
-# It behaves like a normal function inside a class but is placed there for organizational purposes.
+from abc import ABC, abstractmethod
 
 
 class Animal(ABC):

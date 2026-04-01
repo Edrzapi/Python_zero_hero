@@ -1,21 +1,23 @@
-# Introduction to Error Handling in Python
+# ============================================================
+# Error Handling — try/except/else/finally
+# ============================================================
 
-# Error handling in Python is done using the try-except block.
-
-# Basic Try-Except Block
+# ------------------------------------------------------------
+# Basic Try-Except
+# ------------------------------------------------------------
 try:
     # Division by zero
     result = 10 / 0
 except ZeroDivisionError:
     print("Error: Division by zero is not allowed!")
 
-# Catching Multiple Exceptions
+# Multiple exception types in one handler
 try:
     num = int("Hello")  # This will raise a ValueError
 except (ValueError, TypeError) as e:
     print(f"Error: {e}")
 
-# Using Else Block (Executes if no exception is raised)
+# else block — runs only if no exception was raised
 try:
     value = 5
     result = value / 2
@@ -24,7 +26,7 @@ except ZeroDivisionError:
 else:
     print(f"The result is: {result}")
 
-# Finally Block (Always executes)
+# finally block — always executes regardless of outcome
 try:
     file = open("non_existent_file.txt", "r")
 except FileNotFoundError:
@@ -32,7 +34,9 @@ except FileNotFoundError:
 finally:
     print("This will always execute!")
 
-# Raising Exceptions (manually)
+# ------------------------------------------------------------
+# Raising Exceptions Manually
+# ------------------------------------------------------------
 try:
     raise ValueError("This is a custom error!")
 except ValueError as e:

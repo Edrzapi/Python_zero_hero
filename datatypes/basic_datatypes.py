@@ -1,57 +1,62 @@
-# Integer (int)
-my_int = 10  # An integer value
-print("Integer:", my_int)  
+# ============================================================
+# Basic Data Types — Primitives and String Formatting
+# ============================================================
 
-# Floating-Point (float)
-my_float = 10.5  # A floating-point number
-print("Float:", my_float)  
+# ------------------------------------------------------------
+# Primitive Types
+# ------------------------------------------------------------
 
-# Boolean (bool)
-my_bool = True  # A boolean value (True or False)
-print("Boolean:", my_bool)  
+my_int = 10
+my_float = 10.5
+my_bool = True
+my_str = "Hello, World!"
 
-# String (str)
-my_str = "Hello, World!"  # A string (sequence of characters)
-print("String:", my_str)  
+print("Integer:", my_int)
+print("Float:", my_float)
+print("Boolean:", my_bool)
+print("String:", my_str)
 
-# Concatenating Different Data Types into Strings (Old Approach)
-# Old concatenation method using '+' (string + string)
+# ------------------------------------------------------------
+# String Formatting — Three Approaches
+# ------------------------------------------------------------
+
+# Concatenation (avoid in production — hard to read)
 concatenated_str = "Integer: " + str(my_int) + ", Float: " + str(my_float)
-print(concatenated_str)  # Concatenate integer and float with string conversion
+print(concatenated_str)
 
-# String Formatting Methods
-# Using .format() (Old-style formatting)
+# .format() — older style, still common in legacy code
 formatted_str = "Integer: {}, Float: {}, Boolean: {}, String: {}".format(my_int, my_float, my_bool, my_str)
-print(formatted_str)  # Using .format() method to format strings
+print(formatted_str)
 
-# F-String - (A Cleaner Approach)
+# f-string — preferred approach (Python 3.6+)
 f_string = f"Integer: {my_int}, Float: {my_float}, Boolean: {my_bool}, String: {my_str}"
-print(f_string)  # Using f-string for more readable string interpolation
+print(f_string)
+
+# ------------------------------------------------------------
+# Functions and Return Types
+# ------------------------------------------------------------
 
 
-# Function Returning a String
 def my_function() -> str:
     return "This is a string from a function!"
 
 
-# Calling the function and printing the return value
 returned_str = my_function()
-print("Returned String from Function:", returned_str)  # Output: String returned from the function
+print("Returned String from Function:", returned_str)
+print("The type of the returned value is:", type(returned_str))
 
-# The returned value from the function is treated as a string type
-print("The type of the returned value is:", type(returned_str))  # This will print: <class 'str'>
+# ------------------------------------------------------------
+# Type Conversion
+# ------------------------------------------------------------
 
-# Type Conversion Between Data Types
-
-# Converting float to integer
-converted_int = int(
-    my_float)  # Converts float to int - Remember, this is called narrowing, we have potential to lose details
+# Narrowing: float to int — fractional part is lost
+converted_int = int(my_float)
 print("Converted Float to Integer:", converted_int)
 
-# Converting integer to float
-converted_float = float(my_int)  # Converts integer to float - Remember, this is called widening, mostly safe
+# Widening: int to float — safe, no data loss
+converted_float = float(my_int)
 print("Converted Integer to Float:", converted_float)
 
-# Converting boolean to integer (True -> 1, False -> 0)
+# Boolean to int: True -> 1, False -> 0
 converted_bool_to_int = int(my_bool)
 print("Converted Boolean to Integer:", converted_bool_to_int)

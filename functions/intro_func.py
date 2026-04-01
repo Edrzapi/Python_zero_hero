@@ -1,15 +1,19 @@
-# Python Functions: A Practical Guide
+# ============================================================
+# Functions — Definitions, Arguments, and Scope
+# ============================================================
 
+# ------------------------------------------------------------
 # Basic Function Definition
-# A function either performs a task or returns a value.
+# ------------------------------------------------------------
 
 def new_function(para, para_one):
     result = para + para_one
     return result
 
 
+# ------------------------------------------------------------
 # Default Arguments
-# When you provide default values for parameters, the caller can omit those arguments.
+# ------------------------------------------------------------
 
 def next_function(no, first_name="bob", last_name="jones"):
     return "{0}, {1}, {2}".format(no, first_name, last_name)
@@ -19,14 +23,13 @@ print(next_function(1))  # Uses default names
 print(next_function(1, first_name="Ed"))  # Pass by name
 
 
-# You cannot pass positional arguments after keyword arguments
+# Note: positional arguments cannot follow keyword arguments
 
-# 3. Variadic Functions (Variable-Length Arguments)
-# Functions that accept a variable number of arguments.
-# *args: For a variable number of positional arguments
-# **kwargs: For a variable number of keyword arguments
+# ------------------------------------------------------------
+# Variadic Functions — *args and **kwargs
+# ------------------------------------------------------------
 
-# Example using *args (variable-length positional arguments) here 3-6 will be represented as a tuple
+# *args collects extra positional arguments as a tuple
 def variadic_function(a, b, *z):
     return a, b, z
 
@@ -34,8 +37,7 @@ def variadic_function(a, b, *z):
 print(variadic_function(1, 2, 3, 4, 5, 6))
 
 
-# Example using **kwargs (variable-length keyword arguments)
-# here the output will be 'vatpc': 15, 'gross': 9.55, 'message': 'Summary'
+# **kwargs collects extra keyword arguments as a dictionary
 def print_vat(**kwargs):
     print(kwargs)
 
@@ -43,15 +45,18 @@ def print_vat(**kwargs):
 print_vat(vatpc=15, gross=9.55, message='Summary')
 
 
+# ------------------------------------------------------------
 # Keyword-Only Arguments
-# Using * enforces keyword-only arguments.
+# ------------------------------------------------------------
+# Using * enforces keyword-only arguments
 
 def force_function(*, no=0, first_name="bob", last_name="jones"):
     return "{0}, {1}, {2}".format(no, first_name, last_name)
 
 
-# Unpacking Arguments
-# You can unpack tuples or lists into function arguments.
+# ------------------------------------------------------------
+# Argument Unpacking
+# ------------------------------------------------------------
 
 def unpack_function(a, b, c):
     return a, b, c
@@ -61,8 +66,9 @@ new_tup = "One", "Two", "Three"
 unpack_function(*new_tup)
 
 
+# ------------------------------------------------------------
 # Nested Functions
-# Can be defined inside other functions.
+# ------------------------------------------------------------
 
 def outer_func():
     print("Outer function!")
@@ -76,7 +82,7 @@ def outer_func():
 outer_func()
 
 
-# Using Functions to Return Other Functions (Nesting Use Case)
+# Nested function returning a value
 
 def str_out_function(val):
     def inner():
@@ -88,8 +94,9 @@ def str_out_function(val):
 str_out_function("Str")
 
 
+# ------------------------------------------------------------
 # Function Annotations
-# Add metadata to function arguments and return types using annotations.
+# ------------------------------------------------------------
 
 def print_vat(**kwargs: 'VAT, gross and message'):
     print(kwargs)
@@ -97,8 +104,9 @@ def print_vat(**kwargs: 'VAT, gross and message'):
 
 print(print_vat.__annotations__)
 
-# Global vs Local Variables
-# Functions are local by default. Use 'global' to modify globally.
+# ------------------------------------------------------------
+# Scope — Global, Local, and Nonlocal
+# ------------------------------------------------------------
 
 var = 1
 result = 3
@@ -113,8 +121,7 @@ scope_test()
 print(result)  # Output: 5
 
 
-# Nonlocal Variables
-# The nonlocal keyword allows you to modify a variable from an outer function.
+# nonlocal allows modification of a variable from an enclosing scope
 
 def myfunc1():
     x = "John"
@@ -130,8 +137,7 @@ def myfunc1():
 print(myfunc1())  # Output: Mike
 
 
-# Handling Variable-Length Arguments (*args)
-# The *args syntax allows a function to accept a variable number of positional arguments.
+# Quick *args recap
 
 def simple_args(*args):
     print(args)

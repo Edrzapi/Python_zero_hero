@@ -1,6 +1,11 @@
-# Python Collections & Comprehensions
+# ============================================================
+# Collections and Comprehensions
+# ============================================================
 
-# Set operations
+# ------------------------------------------------------------
+# Set Operations
+# ------------------------------------------------------------
+
 set1 = {1, 2, 3}
 set2 = {3, 4, 5}
 print(set1 | set2)  # Union: {1, 2, 3, 4, 5}
@@ -14,13 +19,19 @@ first_dict = {1: "value", 2: "another value", 3: "third value"}
 for key, value in first_dict.items():
     print(f"{key}: {value}")  # 1: value, 2: another value, 3: third value
 
+# ------------------------------------------------------------
+# Dictionary Operations
+# ------------------------------------------------------------
+
 # Merging dictionaries (Python 3.9+)
 dict1 = {1: "A", 2: "B"}
 dict2 = {3: "C", 4: "D"}
 merged_dict = dict1 | dict2
 print(merged_dict)  # {1: 'A', 2: 'B', 3: 'C', 4: 'D'}
 
-# Basic collections
+# ------------------------------------------------------------
+# Basic Collection Types
+# ------------------------------------------------------------
 first_list = [1, 2, 3]         # List: ordered, mutable, allows duplicates
 first_dict = {1: "value"}      # Dictionary: key-value pairs, ordered (Python 3.7+)
 first_set = {1, 2, 3}          # Set: unordered, unique elements
@@ -38,6 +49,10 @@ print(a, b, c)  # 1 2 3
 values = (1, 2, 3, 4, 5)
 first, *middle, last = values
 print(first, middle, last)  # 1 [2, 3, 4] 5
+
+# ------------------------------------------------------------
+# Collections Module — Specialised Types
+# ------------------------------------------------------------
 
 # NamedTuple
 from collections import namedtuple
@@ -66,7 +81,9 @@ d.appendleft(0)  # Add to front
 d.append(4)  # Add to back
 print(d)  # deque([0, 1, 2, 3, 4])
 
+# ------------------------------------------------------------
 # Comprehensions
+# ------------------------------------------------------------
 new_dict = {x: x for x in range(1, 5)}
 print(new_dict)  # {1: 1, 2: 2, 3: 3, 4: 4}
 
@@ -82,7 +99,7 @@ print(new_set)  # {1, 2, 3, 4}
 new_tup = tuple(x for x in range(1, 5))
 print(new_tup)  # (1, 2, 3, 4)
 
-# Filtering and transformation
+# Filtering and transformation with comprehensions
 squared = [x ** 2 for x in range(1, 6)]
 print(squared)  # [1, 4, 9, 16, 25]
 

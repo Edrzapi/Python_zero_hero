@@ -1,47 +1,52 @@
-# Decorators can seem confusing, lets break the concept down with useful functions
-# In Python, decorators are a powerful and flexible way to modify or extend the behavior of functions or methods without
-# changing their actual code. They are often used to add functionality, such as logging, access control, memoization
-# , or modifying how a function behaves.
+# ============================================================
+# Decorators — Practical Examples
+# ============================================================
+# A decorator wraps a function to modify its behaviour without
+# changing its source code. Common uses: logging, timing,
+# access control, memoization.
+# ============================================================
+
+import time
+import functools
+
+# ------------------------------------------------------------
+# Example 1: Execution Timing
+# ------------------------------------------------------------
 
 
-# Logging Time
+def func_time(func):
+    def wrapper():
+        pre_execution_stamp = time.time()
+        func()
+        elapsed = time.time() - pre_execution_stamp
+        print(f"{func.__name__} executed in: {elapsed:.4f} seconds")
 
-import time  # Import time module to measure execution time
-
-
-def func_time(func):  # Decorator function that takes another function as an argument
-    def wrapper():  # Inner function that wraps the original function
-        pre_execution_stamp = time.time()  # Capture time before function execution
-        func()  # Call the original function
-        post_execution_stamp = time.time() - pre_execution_stamp  # Measure elapsed time
-        print(f"{func.__name__} executed in: {post_execution_stamp:.4f} seconds")  # Log the execution time
-
-    return wrapper  # Return the wrapper function without executing it
+    return wrapper
 
 
-@func_time  # Apply the decorator to measure execution time
+@func_time
 def sleep_for_three():
-    time.sleep(3)  # Simulate a function that takes 3 seconds to execute
+    time.sleep(3)
 
 
-sleep_for_three()  # Call the function, which is now wrapped
+sleep_for_three()
 
-# Argument Logging
-
-import functools  # Required for preserving function metadata
+# ------------------------------------------------------------
+# Example 2: Argument and Return Value Logging
+# ------------------------------------------------------------
 
 
 def log_function_call(func):
     """Decorator to log function calls, arguments, and return values."""
 
-    @functools.wraps(func)  # Preserve the original function name and docstring
+    @functools.wraps(func)  # Preserves original function name and docstring
     def wrapper(*args, **kwargs):
         print(f"Calling function: {func.__name__} with arguments: {args} {kwargs}")
-        result = func(*args, **kwargs)  # Call the original function
-        print(f"{func.__name__} returned: {result}")  # Log the result
-        return result  # Return the original function's output
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} returned: {result}")
+        return result
 
-    return wrapper  # Return the wrapper function
+    return wrapper
 
 
 @log_function_call

@@ -1,22 +1,19 @@
+# ============================================================
+# HTTP Requests — GET with the requests Library
+# ============================================================
+# HTTP Status Codes:
+#   200 OK              201 Created         204 No Content
+#   400 Bad Request      401 Unauthorized    403 Forbidden
+#   404 Not Found        500 Server Error    503 Unavailable
+# ============================================================
+
 import requests
 
-# =========================== HTTP Status Codes ============================ #
-# Status Code Overview:
-# 200: OK - The request was successful.
-# 201: Created - Resource was successfully created (used in POST requests).
-# 204: No Content - The request was successful but no content was returned.
-# 400: Bad Request - The request is malformed or missing required parameters.
-# 401: Unauthorized - Authentication is required to access the resource.
-# 403: Forbidden - The server understands the request, but it refuses to authorize it.
-# 404: Not Found - The requested resource could not be found on the server.
-# 500: Internal Server Error - A generic error occurred on the server.
-# 503: Service Unavailable - The server is currently unavailable (overloaded or down for maintenance).
-# 300s: Redirection - The request needs further action to complete (e.g., URL has moved).
-
-# Base URL for the PokéAPI
 base_url = "https://pokeapi.co/api/v2/"
 
-# =========================== Single Pokémon Fetch =========================== #
+# ------------------------------------------------------------
+# Single GET Request with Status Code Handling
+# ------------------------------------------------------------
 
 # Define a Pokémon name (can be replaced with user input)
 pokemon_name = "nonexistentpokemon"  # Example: a Pokémon that doesn't exist
@@ -48,7 +45,9 @@ else:
     else:
         print(f"Error {response.status_code}: Please check your request and try again.")
 
-# =========================== Iterate List of Pokémon ========================= #
+# ------------------------------------------------------------
+# Iterating Over Multiple Requests
+# ------------------------------------------------------------
 
 pokemon_names = ["pikachu", "bulbasaur", "charmander", "squirtle"]
 
@@ -70,9 +69,9 @@ for pokemon_name in pokemon_names:
         print(f"Failed to fetch data for {pokemon_name}")
 
 
-# =========================== Fetch Pokémon by ID =========================== #
-
-# Function to fetch and print Pokémon info using the Pokémon ID
+# ------------------------------------------------------------
+# Fetching by ID with a Reusable Function
+# ------------------------------------------------------------
 def fetch_pokemon_info(pokemon_id):
     response = requests.get(f"{base_url}pokemon/{pokemon_id}")
     if response.status_code == 200:
@@ -92,9 +91,9 @@ for i in range(1, 21):
         print(f"Types: {[t['type']['name'] for t in pokemon_info['types']]}")
         print("-----")
 
-# =========================== Search Pokémon by Type ======================== #
-
-# Example type: 'fire'
+# ------------------------------------------------------------
+# Filtering by Type — Nested JSON Traversal
+# ------------------------------------------------------------
 type_name = "fire"
 url = f"{base_url}type/{type_name}"
 

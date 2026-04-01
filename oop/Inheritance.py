@@ -1,5 +1,10 @@
+# ============================================================
+# Inheritance — Base Classes, Overriding, Polymorphism
+# ============================================================
+
+
 class Animal:
-    """Base class for all animals, providing common attributes and behaviors."""
+    """Base class for all animals."""
 
     def __init__(self, name, species):
         self.name = name

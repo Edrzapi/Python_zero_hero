@@ -1,28 +1,12 @@
-
-"""
-Explanation of Doctests:
-
-Doctests are a simple way to check that your code behaves as expected by embedding test cases inside your docstrings.
-Here’s how they work:
-
-Inside a function's docstring, you write examples of how the function should behave using Python’s interactive shell syntax.
-    - The example starts with `>>>` followed by a function call.
-    - The expected result comes on the next line without `>>>`.
-
-You can run doctests using Python's built-in `doctest` module. By using the command:
-    python -m doctest my_script.py -v
-This will execute all doctests in the script and verify that the function’s output matches the expected output in the docstrings.
-
-What happens if the tests fail?
-    - If the function’s output does **not** match the expected output in the docstring, the test will fail.
-    - `doctest` will show you the actual output and highlight the discrepancy.
-    - You can then adjust your function or update your docstring accordingly.
-
-Why use doctests?
-    - **Quick validation**: It’s a great way to quickly check if your functions are working as expected.
-    - **Documentation**: Doctests double as both documentation (by showing usage examples) and tests.
-    - **Lightweight**: They’re simple to add and don't require setting up test suites.
-"""
+# ============================================================
+# Doctests — Testing via Docstring Examples
+# ============================================================
+# Doctests embed test cases inside docstrings using >>> syntax.
+# Run with: python -m doctest intro_doctesting.py -v
+#
+# If output doesn’t match the expected value, the test fails.
+# Doctests serve as both documentation and lightweight tests.
+# ============================================================
 
 
 def add(a, b):

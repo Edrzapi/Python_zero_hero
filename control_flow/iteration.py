@@ -1,4 +1,10 @@
-# Python Iteration Techniques
+# ============================================================
+# Iteration Techniques
+# ============================================================
+
+# ------------------------------------------------------------
+# Basic Iteration — Lists, Dicts, Sets, Tuples
+# ------------------------------------------------------------
 
 # Iterating over a List
 my_list = [1, 2, 3, 4, 5]
@@ -34,12 +40,16 @@ my_tuple = (10, 20, 30)
 for item in my_tuple:
     print(item)  # Prints each item in the tuple
 
-# Generator Expressions (Memory-efficient iteration)
+# ------------------------------------------------------------
+# Generator Expressions — Memory-Efficient Iteration
+# ------------------------------------------------------------
 gen = (x ** 2 for x in range(1, 6))
 for value in gen:
     print(value)  # Prints each square, values are computed on the fly
 
-# Itertools Module for Advanced Iteration
+# ------------------------------------------------------------
+# itertools — Advanced Iteration Patterns
+# ------------------------------------------------------------
 import itertools
 
 # Infinite Iteration with count()
@@ -66,7 +76,9 @@ for key, group in grouped:
     # Output: Group key: False, Group: [1], [3], [5]
     #         Group key: True, Group: [2], [4], [6]
 
-# Iterating with While Loop (Manual Control)
+# ------------------------------------------------------------
+# While Loops and Nested Loops
+# ------------------------------------------------------------
 counter = 0
 while counter < 5:
     print(counter)  # Prints numbers from 0 to 4

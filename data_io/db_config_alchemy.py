@@ -1,14 +1,20 @@
-from sqlalchemy import create_engine
+# ============================================================
+# SQLAlchemy — Database Connection with an ORM Engine
+# ============================================================
+# Connection string format:
+#   Dialect+Driver://Username:Password@Host:Port/Database
+#
+# This example uses MySQL with mysql-connector-python.
+# Update the credentials and host to match your environment.
+# ============================================================
 
-# Database connection string format for MySQL
-# Dialect+Driver://Username:Password@Host:Port/Database
+from sqlalchemy import create_engine, text
+
 database_url = "mysql+mysqlconnector://username:password@remote_host:3306/your_database"
 
-# Create an engine
 engine = create_engine(database_url)
 
-# Connect to the database
 with engine.connect() as connection:
-    result = connection.execute("SELECT * FROM your_table LIMIT 5")
+    result = connection.execute(text("SELECT * FROM your_table LIMIT 5"))
     for row in result:
         print(row)

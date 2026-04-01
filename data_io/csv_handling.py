@@ -1,83 +1,69 @@
+# ============================================================
+# CSV Handling — Chunked Reading/Writing with csv and pandas
+# ============================================================
+
 import csv
+import pandas as pd
 
-""" Reading in CSV """
+# ------------------------------------------------------------
+# Reading CSV in Chunks — stdlib csv module
+# ------------------------------------------------------------
 
 
-# Define a function to process data in chunks (for large files)
 def process_chunk(chunk):
-    # This is where you process each chunk of data
+    """Process a batch of rows. Replace with your own logic."""
     for row in chunk:
-        print(row)  # Example: Print each row (can be replaced with other processing)
+        print(row)
 
 
-# Set the size of each chunk to be read at once
 chunk_size = 1000
-chunk = []  # Initialize an empty list to store rows
+chunk = []
 
-# Open the CSV file in read mode
-with open('large_dataset.csv', mode='r') as file:
-    csv_reader = csv.reader(file)  # Create a CSV reader object
-    header = next(csv_reader)  # Skip the header row, if present
+with open(‘large_dataset.csv’, mode=’r’) as file:
+    csv_reader = csv.reader(file)
+    header = next(csv_reader)  # Skip header row
 
-    # Iterate through each row in the CSV file
     for row in csv_reader:
-        chunk.append(row)  # Add each row to the chunk
-
-        # Once the chunk reaches the specified size, process it
+        chunk.append(row)
         if len(chunk) >= chunk_size:
-            process_chunk(chunk)  # Process the chunk of rows
-            chunk = []  # Reset chunk for the next set of rows
+            process_chunk(chunk)
+            chunk = []
 
-    # Process any remaining rows that didn’t fit into a full chunk
     if chunk:
-        process_chunk(chunk)  # Process the final chunk if there are any left
+        process_chunk(chunk)
 
-import pandas as pd
+# ------------------------------------------------------------
+# Reading CSV in Chunks — pandas
+# ------------------------------------------------------------
 
-# Set chunk size (e.g., 1000 rows at a time)
-chunk_size = 1000
-chunks = pd.read_csv('large_dataset.csv', chunksize=chunk_size)  # Read the file in chunks
+chunks = pd.read_csv(‘large_dataset.csv’, chunksize=chunk_size)
 
-# Iterate over each chunk returned by pandas
 for chunk in chunks:
-    # Process each chunk (pandas DataFrame)
-    print(chunk.head())  # Print the first few rows of the current chunk for review
+    print(chunk.head())
 
-""" Writing in CSV """
+# ------------------------------------------------------------
+# Writing CSV in Chunks — stdlib csv module
+# ------------------------------------------------------------
 
-import csv
+data = [[‘Name’, ‘Age’], [‘Alice’, 30], [‘Bob’, 25], [‘Charlie’, 35]]
+chunk = []
 
-# Example data to write (you can replace this with your own data)
-data = [['Name', 'Age'], ['Alice', 30], ['Bob', 25], ['Charlie', 35]]
+with open(‘output.csv’, mode=’w’, newline=’’) as file:
+    csv_writer = csv.writer(file)
 
-# Set the chunk size for writing (e.g., writing 1000 rows at a time)
-chunk_size = 1000
-chunk = []  # Initialize an empty list to store rows to be written
-
-# Open the output CSV file in write mode
-with open('output.csv', mode='w', newline='') as file:
-    csv_writer = csv.writer(file)  # Create a CSV writer object
-
-    # Iterate through each row in the data
     for row in data:
-        chunk.append(row)  # Add each row to the chunk
-
-        # Once the chunk reaches the specified size, write it to the file
+        chunk.append(row)
         if len(chunk) >= chunk_size:
-            csv_writer.writerows(chunk)  # Write the chunk to the file
-            chunk = []  # Reset the chunk for the next set of rows
+            csv_writer.writerows(chunk)
+            chunk = []
 
-    # Write any remaining rows that didn’t fit into a full chunk
     if chunk:
-        csv_writer.writerows(chunk)  # Write the final chunk of rows
+        csv_writer.writerows(chunk)
 
-# ------------------------------------------
+# ------------------------------------------------------------
+# Writing CSV — pandas DataFrame
+# ------------------------------------------------------------
 
-import pandas as pd
-
-# Example data (this could be from processing a large CSV file)
-data = {'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [30, 25, 35]}
-df = pd.DataFrame(data)  # Convert data into a pandas DataFrame
-
-# Save the DataFrame to a CSV file
-df.to_csv('output.csv', index=False)  # Write the DataFrame to 'output.csv' without the index
+data = {‘Name’: [‘Alice’, ‘Bob’, ‘Charlie’], ‘Age’: [30, 25, 35]}
+df = pd.DataFrame(data)
+df.to_csv(‘output.csv’, index=False)

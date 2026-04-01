@@ -1,6 +1,10 @@
-# Further Error Handling: Creating Custom Exceptions
+# ============================================================
+# Custom Exceptions and Exception Chaining
+# ============================================================
 
-# Creating a Custom Exception Class
+# ------------------------------------------------------------
+# Custom Exception Hierarchy
+# ------------------------------------------------------------
 class CustomError(Exception):
     """Base class for custom exceptions."""
     pass
@@ -31,7 +35,9 @@ except InvalidAgeError as e:
     print(f"Custom Exception Caught: {e}")
 
 
-# More advanced: chaining exceptions
+# ------------------------------------------------------------
+# Exception Chaining
+# ------------------------------------------------------------
 class DatabaseError(Exception):
     """Custom exception for database errors."""
 

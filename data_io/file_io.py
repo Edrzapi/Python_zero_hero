@@ -1,20 +1,24 @@
+# ============================================================
+# File I/O — Reading, Writing, Binary, Pickling, CSV, SQLite
+# ============================================================
+# File Modes:
+#   'r'  -> Read (default)     'w'  -> Write (overwrite)
+#   'a'  -> Append             'x'  -> Create (fail if exists)
+#   'r+' -> Read and write     'w+' -> Create/truncate for r/w
+#   'a+' -> Create/append for r/w
+# ============================================================
+
 import sys
 import pickle
 import csv
 import sqlite3
 import os
 
-# File Modes
-# 'r'  -> Read (default mode)
-# 'w'  -> Write (creates/overwrites the file)
-# 'a'  -> Append (creates the file if not exists)
-# 'x'  -> Create and write, fails if the file exists
-# 'r+' -> Read and write
-# 'w+' -> Create and truncate for read/write
-# 'a+' -> Create and append for read/write
+# ------------------------------------------------------------
+# EAFP vs LBYL — Two Approaches to File Access
+# ------------------------------------------------------------
 
-# ------------------------
-# Ask for forgiveness approach (try/except)
+# EAFP: Easier to Ask for Forgiveness than Permission
 try:
     file = open("drop/Errors.txt", "r")  # Trying to open the file
     print("Reading file content:")
@@ -24,8 +28,7 @@ except Exception as e:
 finally:
     file.close()  # Ensures that the file is closed
 
-# ------------------------
-# Look before you leap approach (os.path.exists)
+# LBYL: Look Before You Leap
 if os.path.exists("drop/Errors.txt"):  # Checking if the file exists first
     with open("drop/Errors.txt", "r") as file:
         print("Reading file content using 'with':")
@@ -33,8 +36,9 @@ if os.path.exists("drop/Errors.txt"):  # Checking if the file exists first
 else:
     print("File does not exist, cannot open it.")
 
-# ------------------------
-# Reading from files
+# ------------------------------------------------------------
+# Reading from Files
+# ------------------------------------------------------------
 with open("drop/Errors.txt", "r") as f:
     print("Read whole file:", f.read())
     f.seek(0)
@@ -48,7 +52,9 @@ with open("drop/Errors.txt", "r") as f:
     for line in f:
         print(line.strip())
 
-# Writing to files
+# ------------------------------------------------------------
+# Writing to Files
+# ------------------------------------------------------------
 with open("drop/Errors.txt", "a") as append_f:
     append_f.write("Appending new line to the file\n")
     append_f.writelines(["Another line\n", "Yet another line\n"])
@@ -57,7 +63,9 @@ with open("drop/Errors.txt", "a") as append_f:
 with open("drop/Errors.txt", "w") as write_f:
     print("This is a new line.", file=write_f)
 
+# ------------------------------------------------------------
 # Binary Files
+# ------------------------------------------------------------
 with open("drop/binary.txt", "wb") as binary_f:
     binary_f.write(b"Binary data\n")
 
@@ -71,20 +79,25 @@ with open('drop/out.dat', 'wb') as dat_f:
     s = "Native string as a line\r\n"
     dat_f.write(s.encode())
 
-# Handling input/output with sys.stdin and sys.stdout
+# ------------------------------------------------------------
+# sys.stdin / sys.stdout — Low-Level I/O
+# ------------------------------------------------------------
 sys.stdout.write("Please enter a value: ")
 sys.stdout.flush()
 reply = sys.stdin.readline()
 safe_reply = sys.stdin.readline().strip()
 print(f"Input was: {reply} and {safe_reply}")
 
-# Navigating within a file (seek, tell)
+# ------------------------------------------------------------
+# File Navigation — seek() and tell()
+# ------------------------------------------------------------
 with open("drop/Errors.txt", "r") as f:
     f.seek(0)  # Move to the beginning
     print("Current position:", f.tell())  # Shows current file position
 
-# Pickling: Saving Python objects
-# Pickling allows us to serialize Python objects into a byte stream, storing data across program executions
+# ------------------------------------------------------------
+# Pickling — Serialising Python Objects
+# ------------------------------------------------------------
 new_obj = {"key": "value", "number": 42}
 with open('drop/pickle-file.pickle', 'wb') as pickle_f:
     pickle.dump(new_obj, pickle_f)
@@ -94,8 +107,9 @@ with open('drop/pickle-file.pickle', 'rb') as pickle_f:
     stored_obj = pickle.load(pickle_f)
     print("Pickled object:", stored_obj)
 
-# CSV Handling
-# Writing CSV files
+# ------------------------------------------------------------
+# CSV — Reading and Writing
+# ------------------------------------------------------------
 csv_data = [["Name", "Age"], ["Alice", 30], ["Bob", 25]]
 with open('drop/people.csv', 'w', newline='') as csv_f:
     writer = csv.writer(csv_f)
@@ -107,8 +121,9 @@ with open('drop/people.csv', 'r') as csv_f:
     for row in reader:
         print("CSV Row:", row)
 
-# SQLite - Simple Database Example
-# Connecting to a SQLite database
+# ------------------------------------------------------------
+# SQLite — Quick Database Example
+# ------------------------------------------------------------
 conn = sqlite3.connect('drop/my_database.db')
 cursor = conn.cursor()
 
